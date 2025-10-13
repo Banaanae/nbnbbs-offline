@@ -27,7 +27,13 @@ export class Messaging {
         );
         decode(message);
         console.log("Message decoded succesfully");
-        messageManagerReceiveMessage(getMessageManagerInstance(), message);
+        if (version == 1) {// login ok
+            try {
+                messageManagerReceiveMessage(getMessageManagerInstance(), message);
+            } catch (e) { }
+        } else {
+            messageManagerReceiveMessage(getMessageManagerInstance(), message);
+        }
         console.log("Message received");
         return message;
     }

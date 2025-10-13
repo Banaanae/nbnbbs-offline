@@ -2,13 +2,13 @@ import { Offsets } from "./offsets";
 import { PiranhaMessage } from "./piranhamessage";
 import { base, documentsDirectory, messagingSend, player, stringCtor, } from "./definitions";
 import { Messaging } from "./messaging";
-import { LoginOkMessage } from "./packets/server/LoginOkMessage";
 import { OwnHomeDataMessage } from "./packets/server/OwnHomeDataMessage";
 import { createStringObject, decodeString, getDocumentsDirectory, strPtr } from "./util";
 import { BattleEndMessage } from "./packets/server/BattleEndMessage";
 import { ByteStream } from "./bytestream";
 import { AskForBattleEndMessage } from "./packets/client/AskForBattleEndMessage";
 import { isAndroid } from "./platform";
+import { PlayerProfileMessage } from "./packets/server/PlayerProfileMessage";
 
 export function installHooks() {
     Interceptor.attach(base.add(Offsets.DebuggerError),
@@ -92,12 +92,14 @@ export function installHooks() {
                 console.log("Stream dump:", payload);
 
                 if (type == 10100) { // ifs > switch
-                    Messaging.sendOfflineMessage(20104, LoginOkMessage.encode(player));
+                    Messaging.sendOfflineMessage(20104, []);
                     Messaging.sendOfflineMessage(24101, OwnHomeDataMessage.encode(player));
                 } else if (type == 17750) {
                     Messaging.sendOfflineMessage(24101, OwnHomeDataMessage.encode(player));
                 } else if (type == 14110) { // erm execute shouldn't have these args :nerd:
                     AskForBattleEndMessage.execute(player, stream);
+                } else if (type == 15081) { // get da profile
+                    Messaging.sendOfflineMessage(24113, PlayerProfileMessage.encode(player));
                 }
             }
 
