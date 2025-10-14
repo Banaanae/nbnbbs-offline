@@ -64,6 +64,7 @@ export function installHooks() {
     Interceptor.attach(base.add(Offsets.MessageManagerSendMessage),
         {
             onEnter(args) {
+                PiranhaMessage.encode(args[1]);
                 let messaging = args[0].add(Offsets.Messaging).readPointer();
                 messaging.add(Offsets.State).writeInt(5);
             },
