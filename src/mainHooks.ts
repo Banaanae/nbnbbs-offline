@@ -24,6 +24,7 @@ import { isAndroid } from "./platform.js";
 import { PlayerProfileMessage } from "./packets/server/PlayerProfileMessage.js";
 import { AvatarNameCheckRequestMessage } from "./packets/client/AvatarNameCheckRequestMessage.js";
 import { ChangeAvatarNameMessage } from "./packets/client/ChangeAvatarNameMessage.js";
+import { EndClientTurnMessage } from "./packets/client/EndClientTurnMessage.js";
 
 let xd = 0;
 
@@ -142,6 +143,8 @@ export function installHooks() {
           } else if (type == 10212) {
             // change avatar name message
             ChangeAvatarNameMessage.execute(player, stream);
+          } else if (type == 14102) {
+            EndClientTurnMessage.decodeAndExecute(player, stream);
           }
         }
 
