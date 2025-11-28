@@ -200,4 +200,10 @@ export function installHooks() {
       }
     },
   });
+
+  Interceptor.attach(base.add(Offsets.BattleScreenShouldShowCHatButton), {
+    onLeave(retval) {
+      retval.replace(ptr(1)); // todo cfg opt
+    },
+  });
 }
