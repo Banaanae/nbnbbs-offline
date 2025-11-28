@@ -205,7 +205,7 @@ export class OwnHomeDataMessage {
       stream.writeVint(event.slot);
       stream.writeVint(event.slot);
       stream.writeVint(0);
-      stream.writeVint(event.timeToEnd - currentTime);
+      stream.writeVint(0);
       stream.writeVint(10);
       stream.writeDataReference({ high: 15, low: event.mapID });
       stream.writeVint(-1);

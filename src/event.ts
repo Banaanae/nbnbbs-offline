@@ -19,7 +19,6 @@ export interface ChampionShipInfo {
 
 export interface Event {
   slot: number;
-  timeToEnd: number;
   tokens: number;
   mapID: number;
   claimedTokens: number[];

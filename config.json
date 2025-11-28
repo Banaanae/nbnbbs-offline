@@ -1408,91 +1408,78 @@
   "events": [
     {
       "slot": 2,
-      "timeToEnd": 1738226512052.918,
       "tokens": 10,
       "mapID": 774,
       "claimedTokens": []
     },
     {
       "slot": 1,
-      "timeToEnd": 1738269712064.6296,
       "tokens": 10,
       "mapID": 810,
       "claimedTokens": []
     },
     {
       "slot": 3,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 542,
       "claimedTokens": []
     },
     {
       "slot": 4,
-      "timeToEnd": 1738269712075.367,
       "tokens": 10,
       "mapID": 761,
       "claimedTokens": []
     },
     {
       "slot": 5,
-      "timeToEnd": 1738269712086.1027,
       "tokens": 10,
       "mapID": 903,
       "claimedTokens": []
     },
     {
       "slot": 6,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 642,
       "claimedTokens": []
     },
     {
       "slot": 7,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 21,
       "claimedTokens": []
     },
     {
       "slot": 10,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 177,
       "claimedTokens": []
     },
     {
       "slot": 9,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 752,
       "claimedTokens": []
     },
     {
       "slot": 34,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 2,
       "claimedTokens": []
     },
     {
       "slot": 12,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 809,
       "claimedTokens": []
     },
     {
       "slot": 13,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 817,
       "claimedTokens": []
     },
     {
       "slot": 20,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 636,
       "claimedTokens": [],
@@ -1516,7 +1503,6 @@
     },
     {
       "slot": 21,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 22,
       "claimedTokens": [],
@@ -1540,7 +1526,6 @@
     },
     {
       "slot": 22,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 19,
       "claimedTokens": [],
@@ -1564,7 +1549,6 @@
     },
     {
       "slot": 23,
-      "timeToEnd": 1727536357345.6142,
       "tokens": 10,
       "mapID": 548,
       "claimedTokens": [],
@@ -1588,7 +1572,6 @@
     },
     {
       "slot": 36,
-      "timeToEnd": 2427536357345.6143,
       "tokens": 10,
       "mapID": 548,
       "claimedTokens": [],
