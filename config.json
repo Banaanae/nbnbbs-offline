@@ -13,6 +13,8 @@
     1,
     2
   ],
+  "tutorial": true,
+  "registered": false,
   "tokens": 0,
   "tokenDoublers": 0,
   "3v3Victories": 0,

@@ -505,7 +505,7 @@ export class OwnHomeDataMessage {
     stream.writeVint(50); // WinLoseStreak
     stream.writeVint(20); // NpcWinCount
     stream.writeVint(0); // NpcLoseCount
-    stream.writeVint(2); // TutorialState
+    stream.writeVint(config.tutorial ? 0 : 2); // TutorialState
     stream.writeVint(12);
     stream.writeVint(0);
     stream.writeVint(0);

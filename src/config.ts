@@ -4,6 +4,7 @@ import { getDefaultConfig } from "./util.js";
 import { Event } from "./event.js";
 
 export class Config {
+  tutorial = true;
   registered = false;
   name = "Natesworks";
   coins = 0;
@@ -55,6 +56,7 @@ export function readConfig() {
   const json = JSON.parse(File.readAllText(configPath));
   const config = new Config();
 
+  config.tutorial = json.tutorial;
   config.registered = json.registered;
   config.coins = json.coins;
   config.gems = json.gems;
@@ -116,6 +118,7 @@ export function readConfig() {
 export function writeConfig(config: Config) {
   const data: any = {};
 
+  data.tutorial = config.tutorial;
   data.registered = config.registered;
   data.name = config.name;
   data.coins = config.coins;

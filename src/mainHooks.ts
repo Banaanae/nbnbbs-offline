@@ -25,6 +25,7 @@ import { PlayerProfileMessage } from "./packets/server/PlayerProfileMessage.js";
 import { AvatarNameCheckRequestMessage } from "./packets/client/AvatarNameCheckRequestMessage.js";
 import { ChangeAvatarNameMessage } from "./packets/client/ChangeAvatarNameMessage.js";
 import { EndClientTurnMessage } from "./packets/client/EndClientTurnMessage.js";
+import { writeConfig } from "./config.js";
 
 let xd = 0;
 
@@ -124,6 +125,11 @@ export function installHooks() {
               OwnHomeDataMessage.encode(player),
             );
           } else if (type == 17750) {
+            // go home from offline practice
+            if (config.tutorial) {
+              config.tutorial = false;
+              writeConfig(config);
+            }
             Messaging.sendOfflineMessage(
               24101,
               OwnHomeDataMessage.encode(player),
