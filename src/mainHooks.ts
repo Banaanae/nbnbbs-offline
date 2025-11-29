@@ -29,6 +29,8 @@ import { EndClientTurnMessage } from "./packets/client/EndClientTurnMessage.js";
 import { writeConfig } from "./config.js";
 
 let progress: number;
+let hasLoaded = false;
+let firstTime = false;
 
 export function installHooks() {
   Interceptor.attach(base.add(Offsets.DebuggerError), {
@@ -45,6 +47,10 @@ export function installHooks() {
 
   Interceptor.attach(base.add(Offsets.ServerConnectionUpdate), {
     onEnter: function (args) {
+      if (args[0].readS32() == 0 && hasLoaded && firstTime) {
+        args[0].writeS32(1);
+        firstTime = false;
+      }
       args[0]
         .add(Process.pointerSize)
         .readPointer()
@@ -220,20 +226,21 @@ export function installHooks() {
     },
   });
 
-  if (config.customLoadingScreen) {
-    Interceptor.attach(base.add(Offsets.LoadingScreenUpdateLoadingProgress), {
-      onEnter(args) {
-        this.textfield = args[0].add(Offsets.LoadingText).readPointer();
-        this.goToAndStopFrameIndexHook = Interceptor.attach(
-          base.add(Offsets.GotoAndStopFrameIndex),
-          {
-            onEnter(args) {
-              progress = args[1].toInt32();
-            },
+  Interceptor.attach(base.add(Offsets.LoadingScreenUpdateLoadingProgress), {
+    onEnter(args) {
+      this.textfield = args[0].add(Offsets.LoadingText).readPointer();
+      this.goToAndStopFrameIndexHook = Interceptor.attach(
+        base.add(Offsets.GotoAndStopFrameIndex),
+        {
+          onEnter(args) {
+            progress = args[1].toInt32();
+            if (progress == 99) hasLoaded = true;
           },
-        );
-      },
-      onLeave(retval) {
+        },
+      );
+    },
+    onLeave(retval) {
+      if (config.customLoadingScreen) {
         let text = `[${progress}%] Loading game...`;
         setTextAndScaleIfNecessary(
           this.textfield,
@@ -242,7 +249,7 @@ export function installHooks() {
           0,
         );
         this.goToAndStopFrameIndexHook.detach();
-      },
-    });
-  }
+      }
+    },
+  });
 }
