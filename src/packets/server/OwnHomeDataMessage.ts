@@ -73,7 +73,8 @@ export class OwnHomeDataMessage {
     stream.writeString(player.region);
     stream.writeString(player.supportedCreator);
 
-    stream.writeVint(22); // int values
+    stream.writeVint(23); // int values
+    stream.writeVlong(config.rankedReputation, 41);
     stream.writeDataReference({ high: 2, low: 1 });
     stream.writeDataReference({ high: 3, low: 0 }); /// tokens gained
     stream.writeDataReference({ high: 4, low: 0 }); // trophies gained
