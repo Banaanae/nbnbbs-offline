@@ -1,6 +1,6 @@
 import { gAssetManager } from "./assetmanagerandroid.js";
 import { Brawler } from "./brawler.js";
-import { base, malloc, pkgName, stringCtor } from "./definitions.js";
+import { base, getString, malloc, pkgName, stringCtor } from "./definitions.js";
 import { Offsets } from "./offsets.js";
 import { isAndroid } from "./platform.js";
 
@@ -105,10 +105,11 @@ export function getDefaultConfigIOS(): string {
 }
 
 export function decodeString(src: NativePointer): string | null {
-  if (src.add(4).readInt() >= 8) {
-    return src.add(8).readPointer().readUtf8String();
+  let len = src.add(4).readInt();
+  if (len >= 8) {
+    return src.add(8).readPointer().readUtf8String(len);
   }
-  return src.add(8).readUtf8String();
+  return src.add(8).readUtf8String(len);
 }
 
 export function strPtr(message: string) {
@@ -212,4 +213,31 @@ export function calculateHighestTrophies(
     trophies += brawler.highestTrophies;
   }
   return trophies;
+}
+
+// https://stackoverflow.com/a/2450976
+export function shuffle(arr: string[]): string[] {
+  let idx = arr.length;
+
+  while (idx != 0) {
+    let shuffledIdx = Math.floor(Math.random() * idx);
+    idx--;
+    [arr[idx], arr[shuffledIdx]] = [
+      arr[shuffledIdx], arr[idx]];
+  }
+
+  return arr;
+}
+
+export function getBotNames(n: number): string[] {
+  let arr: string[] = [];
+  let i = 1;
+  while (true) {
+    let name = decodeString(getString(Memory.allocUtf8String("TID_BOT_" + i.toString())));
+      if (!name) throw new Error("name is null");
+    if (i >= n && name.startsWith("TID_")) break;
+    i++;
+    arr.push(name);
+  }
+  return shuffle(arr);
 }

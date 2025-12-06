@@ -49,6 +49,8 @@
     "UpdateChronosResources": "0x64cf5c",
     "Unk1": "0xa0",
 
-    "GetHelpfulHandState": "0x7386cc"
+    "GetHelpfulHandState": "0x7386cc",
+
+    "StringTableGetString": "0x76a5e4"
   }
 }

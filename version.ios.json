@@ -44,6 +44,11 @@
     "LoadingPercent": "0x40",
     "LoadingAlpha": "0x38",
 
-    "GetHelpfulHandState": "0x2f1cc0"
+    "GetHelpfulHandState": "0x2f1cc0",
+
+    "StringTableGetString": "0x31d054",
+    "StringTableGetStringThunk": "0x31d050",
+
+    "GetPlayerCount": "0x44f260"
   }
 }

@@ -36,7 +36,7 @@
   "prestige": 0,
   "fameCredits": 300000,
   "allCreatorCodesValid": false,
-  "creatorCodes": ["Natesworks", "kubune", "Hallo"],
+  "randomBotNames": true,
   "events": [
     {
       "slot": 2,

@@ -2,10 +2,12 @@ import { Offsets } from "./offsets.js";
 import { PiranhaMessage } from "./piranhamessage.js";
 import {
   base,
+  botNames,
   config,
   documentsDirectory,
   messagingSend,
   player,
+  setBotNames,
   setText,
   setTextAndScaleIfNecessary,
   stringCtor,
@@ -15,6 +17,7 @@ import { OwnHomeDataMessage } from "./packets/server/OwnHomeDataMessage.js";
 import {
   createStringObject,
   decodeString,
+  getBotNames,
   getDocumentsDirectory,
   strPtr,
 } from "./util.js";
@@ -28,6 +31,7 @@ import { ChangeAvatarNameMessage } from "./packets/client/ChangeAvatarNameMessag
 import { EndClientTurnMessage } from "./packets/client/EndClientTurnMessage.js";
 import { writeConfig } from "./config.js";
 import { SetSupportedCreatorMessage } from "./packets/client/SetSupportedCreatorMessage.js";
+import { create } from "domain";
 
 let progress: number;
 let hasLoaded = false;
@@ -93,8 +97,24 @@ export function installHooks() {
   Interceptor.attach(base.add(Offsets.StartGame), {
     onEnter: function (args) {
       args[3] = ptr(3);
+      if (config.randomBotNames) {
+        this.h = Interceptor.attach(base.add(Offsets.GetPlayerCount),
+        {
+          onLeave(retval) {
+            setBotNames(getBotNames(retval.toInt32() - 1));
+            console.log("Bot names:", botNames.toString()); 
+          }
+        });
+      }
+    },
+    onLeave() {
+      if (config.randomBotNames) {
+        this.h.detach();
+      }
     },
   });
+
+
 
   Interceptor.attach(base.add(Offsets.SendMessage), {
     onEnter(args) {
@@ -234,4 +254,17 @@ export function installHooks() {
       new NativeCallback(function () {}, "void", []),
     );
   }
+
+  Interceptor.attach(base.add(Offsets.StringTableGetString),
+    {
+      onEnter(args) {
+        this.str = args[0].readUtf8String();
+      },
+      onLeave(retval) {
+        if (config.randomBotNames && this.str.startsWith("TID_BOT_")) {
+          let idx = this.str.split("TID_BOT_")[1] - 1;
+          retval.replace(createStringObject(botNames[idx]));
+        }
+      },
+    });
 }

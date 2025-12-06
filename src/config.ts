@@ -44,7 +44,8 @@ export class Config {
   rankedReputation: number = 0;
   supportedCreator: string = "";
   allCreatorCodesValid = false;
-  creatorCodes: string[] = []
+  creatorCodes: string[] = [];
+  randomBotNames = true;
 }
 export function tryLoadDefaultConfig() {
   try {
@@ -119,6 +120,7 @@ export function readConfig() {
   config.supportedCreator = json.supportedCreator || "Natesworks";
   config.allCreatorCodesValid = json.allCreatorCodesValid || false;
   config.creatorCodes = json.creatorCodes || ["Natesworks", "kubune", "Hallo"];
+  config.randomBotNames = json.randomBotNames || false;
 
   return config;
 }
@@ -181,6 +183,7 @@ export function writeConfig(config: Config) {
     data.fameCredits = config.fameCredits;
     data.favouriteBrawler = config.favouriteBrawler;
     data.rankedReputation = config.rankedReputation;
+    data.randomBotNames = config.randomBotNames;
   }
 
   const remove = new NativeFunction(libc.getExportByName("remove"), "int", [

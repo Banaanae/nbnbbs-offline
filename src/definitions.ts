@@ -21,6 +21,7 @@ export let documentsDirectory: string;
 export let configPath: string;
 export let config: Config;
 export let pkgName: string;
+export let botNames: string[];
 
 export let createMessageByType: any;
 export let operator_new: any;
@@ -34,6 +35,7 @@ export let stageAddChild: any;
 export let setText: any;
 export let setXY: any;
 export let setTextAndScaleIfNecessary: any;
+export let getString: any;
 
 export function load() {
   pkgName = getPackageName();
@@ -103,6 +105,7 @@ export function load() {
     "void",
     ["pointer", "pointer", "bool", "bool"],
   );
+  getString = new NativeFunction(base.add(isAndroid ? Offsets.StringTableGetString : Offsets.StringTableGetStringThunk), "pointer", ["pointer"]);
 
   documentsDirectory = getDocumentsDirectory();
   configPath = documentsDirectory + "/config.json";
@@ -127,4 +130,12 @@ S.B:
 
 xXCooBloyXx:
 - Telling me how to get some of the required offsets for sendOfflineMessage.
+
+kubune:
+- Player profile message 
+- Ranked reputation
 `;
+
+export function setBotNames(x: string[]){
+  botNames = x;
+}
