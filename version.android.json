@@ -51,6 +51,8 @@
 
     "GetHelpfulHandState": "0x7386cc",
 
-    "StringTableGetString": "0x76a5e4"
+    "StringTableGetString": "0x76a5e4",
+
+    "GetPlayerCount": "0x912b14"
   }
 }
