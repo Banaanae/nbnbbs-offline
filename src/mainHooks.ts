@@ -34,6 +34,7 @@ import { SetSupportedCreatorMessage } from "./packets/client/SetSupportedCreator
 import { create } from "domain";
 import { CreatePlayerMapMessage } from "./packets/client/CreatePlayerMapMessage.js";
 import { PlayerMapsMessage } from "./packets/server/PlayerMapsMessage.js";
+import { DeletePlayerMapMessage} from "./packets/client/DeletePlayerMapMessage.js"
 
 let progress: number;
 let hasLoaded = false;
@@ -191,7 +192,9 @@ export function installHooks() {
               22102,
               PlayerMapsMessage.encode(player),
             );
-          }
+          } else if (type == 12101) {
+	    DeletePlayerMapMessage.execute(player, stream);
+	  }
         }
 
         PiranhaMessage.destroyMessage(message);
