@@ -12,7 +12,11 @@ An offline client that supports Android and iOS.
 - Saving thumbnail, name color, favourite brawler and more
 - Random bot names
 - Content creator codes
+- Teams (wip)
+- Starr road (wip)
+- Tutorial
+- Better loading screen
 
 ## Credits
 
-OwnHomeDataMessage structure by Soufgame. Player profile by kubune. Map maker from [ProjectColette](https://github.com/shei-bi/projectcolette-public).
+OwnHomeDataMessage structure by Soufgame. Player profile by kubune. Map maker and teams from [ProjectColette](https://github.com/shei-bi/projectcolette-public).

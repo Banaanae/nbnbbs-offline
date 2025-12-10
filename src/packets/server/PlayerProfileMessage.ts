@@ -2,6 +2,7 @@ import { Player } from "../../player.js";
 import { ByteStream } from "../../bytestream.js";
 import { Config } from "../../config.js";
 import { config } from "../../definitions.js";
+import { PlayerDisplayData } from "../../playerdisplaydata.js"
 
 export class PlayerProfileMessage {
   static encode(player: Player): number[] {
@@ -42,11 +43,8 @@ export class PlayerProfileMessage {
     stream.writeVint(config.fameCredits);
 
     /* ***************************************** */
-    stream.writeString(player.name);
-    stream.writeVint(100);
-    stream.writeVint(28000000 + player.thumbnail);
-    stream.writeVint(43000000 + player.namecolor);
-    stream.writeVint(43000000); // haspremiumpass == + player.namecolor
+    let displaydata = new PlayerDisplayData(player.name, player.thumbnail, player.namecolor);
+    stream = displaydata.encode(stream);
 
     /* ***************************************** */
     stream.writeBoolean(false);

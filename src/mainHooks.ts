@@ -35,6 +35,10 @@ import { create } from "domain";
 import { CreatePlayerMapMessage } from "./packets/client/CreatePlayerMapMessage.js";
 import { PlayerMapsMessage } from "./packets/server/PlayerMapsMessage.js";
 import { DeletePlayerMapMessage} from "./packets/client/DeletePlayerMapMessage.js"
+import { TeamCreateMessage } from "./packets/client/teams/TeamCreateMessage.js"
+import { TeamEntry } from "./teams/teamentry.js"
+import { TeamMember } from "./teams/teammember.js"
+import { Long } from "./long.js";
 
 let progress: number;
 let hasLoaded = false;
@@ -156,7 +160,12 @@ export function installHooks() {
               24101,
               OwnHomeDataMessage.encode(player),
             );
-          } else if (type == 17750) {
+	    let entry = new TeamEntry(new Long(0, 1), 1, 0, 1);
+            entry.teamMembers.push(new TeamMember(player, 11, true, 0, 1000));
+	    console.log("entry");
+	    let stream = new ByteStream([]);
+	    Messaging.sendOfflineMessage(24124, entry.encode(stream).payload);
+          } else if (type == 17750 || type == 12108) {
             // go home from offline practice
             if (config.tutorial) {
               config.tutorial = false;
@@ -165,7 +174,7 @@ export function installHooks() {
             Messaging.sendOfflineMessage(
               24101,
               OwnHomeDataMessage.encode(player),
-            );
+            );  
           } else if (type == 14110) {
             // erm execute shouldn't have these args :nerd:
             AskForBattleEndMessage.execute(player, stream);
@@ -194,6 +203,8 @@ export function installHooks() {
             );
           } else if (type == 12101) {
 	    DeletePlayerMapMessage.execute(player, stream);
+	  } else if (type == 14350) {
+	    TeamCreateMessage.execute(player, stream);
 	  }
         }
 
