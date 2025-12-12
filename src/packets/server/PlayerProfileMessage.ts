@@ -1,11 +1,11 @@
 import { Player } from "../../player.js";
 import { ByteStream } from "../../bytestream.js";
 import { Config } from "../../config.js";
-import { config } from "../../definitions.js";
-import { PlayerDisplayData } from "../../playerdisplaydata.js"
+import { config, player } from "../../definitions.js";
+import { PlayerDisplayData } from "../../playerdisplaydata.js";
 
 export class PlayerProfileMessage {
-  static encode(player: Player): number[] {
+  static encode(): number[] {
     let stream = new ByteStream([]);
 
     // PlayerProfile::encode
@@ -43,7 +43,11 @@ export class PlayerProfileMessage {
     stream.writeVint(config.fameCredits);
 
     /* ***************************************** */
-    let displaydata = new PlayerDisplayData(player.name, player.thumbnail, player.namecolor);
+    let displaydata = new PlayerDisplayData(
+      config.name,
+      player.thumbnail,
+      player.namecolor,
+    );
     stream = displaydata.encode(stream);
 
     /* ***************************************** */
@@ -51,7 +55,7 @@ export class PlayerProfileMessage {
     stream.writeString("hello world");
     stream.writeVint(0);
     stream.writeVint(0);
-    stream.writeVint(0); // max winstreak
+    stream.writeVint(67); // max winstreak
     stream.writeDataReference({ high: 29, low: 0 }); // hero skin
     stream.writeDataReference({ high: 0, low: -1 }); // thumbnail 1
     stream.writeDataReference({ high: 0, low: -1 }); // thumbnail 2

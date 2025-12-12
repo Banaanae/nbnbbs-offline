@@ -1,29 +1,23 @@
 import { PlayerDisplayData } from "../playerdisplaydata.js";
 import { Player } from "../player.js";
 import { ByteStream } from "../bytestream.js";
+import { config } from "../definitions.js";
 
 export class TeamMember {
-  powerlevel = 11;
   isOwner = true;
   state = 0;
   playerDisplayData: PlayerDisplayData;
   characterID = 0;
   ready = false;
 
-  constructor(
-    player: Player,
-    powerlevel: number,
-    isOwner: boolean,
-    state: number,
-  ) {
-    this.powerlevel = powerlevel;
+  constructor(isOwner: boolean, state: number) {
     this.isOwner = isOwner;
     this.state = state;
-    this.characterID = player.selectedBrawlers[0];
+    this.characterID = config.selectedBrawlers[0];
     this.playerDisplayData = new PlayerDisplayData(
-      player.name,
-      player.thumbnail,
-      player.namecolor,
+      config.name,
+      config.thumbnail,
+      config.namecolor,
     );
   }
 
