@@ -46,7 +46,7 @@ export class Config {
   allCreatorCodesValid = false;
   creatorCodes: string[] = [];
   randomBotNames = true;
-  draftMapLimit: number = 5;
+  draftMapLimit: number = 100;
   winstreak = 0;
   winstreakBrawler = 0;
   creationDate = 0;
@@ -57,6 +57,7 @@ export class Config {
   highestClubLeague = 0;
   highestSoloLeague = 0;
   r35brawlers = 0;
+  teamExperiment = false;
 }
 export function tryLoadDefaultConfig() {
   try {
@@ -148,6 +149,7 @@ export function readConfig() {
     config.highestSoloLeague = json.previousStats.highestSoloLeague || 0;
     config.r35brawlers = json.previousStats.r35brawlers || 0;
   }
+  config.teamExperiment = json.teamExperiment || false;
 
   return config;
 }
@@ -224,6 +226,8 @@ export function writeConfig(config: Config) {
       highestSoloLeague: config.highestSoloLeague,
       r35brawlers: config.r35brawlers,
     };
+
+    data.teamExperiment = config.teamExperiment;
   }
 
   const remove = new NativeFunction(libc.getExportByName("remove"), "int", [

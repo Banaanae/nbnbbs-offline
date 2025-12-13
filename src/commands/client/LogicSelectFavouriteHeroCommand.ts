@@ -6,8 +6,8 @@ import { LogicCommand } from "../../logiccommand.js";
 export class LogicSelectFavouriteHeroCommand {
   static decode(stream: ByteStream): any {
     stream = LogicCommand.decode(stream);
-    let characterID = stream.readDataReference().low;
-    return { stream, characterID };
+    let character = stream.readDataReference().low;
+    return { stream, character };
   }
 
   static execute(characterID: number) {

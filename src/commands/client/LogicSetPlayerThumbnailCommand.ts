@@ -6,8 +6,8 @@ import { LogicCommand } from "../../logiccommand.js";
 export class LogicSetPlayerThumbnailCommand {
   static decode(stream: ByteStream): any {
     stream = LogicCommand.decode(stream);
-    let thumbnailID = stream.readDataReference().low;
-    return { stream, thumbnailID };
+    let thumbnail = stream.readDataReference().low;
+    return { stream, thumbnail };
   }
 
   static execute(thumbnailID: number) {

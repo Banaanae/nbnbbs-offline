@@ -3,7 +3,6 @@ import {
   base,
   config,
   createMessageByType,
-  malloc,
   messageManagerReceiveMessage,
   operator_new,
 } from "./definitions.js";
@@ -66,7 +65,9 @@ export class Messaging {
       case 10100: {
         Messaging.sendOfflineMessage(20104, []);
         Messaging.sendOfflineMessage(24101, OwnHomeDataMessage.encode());
-        TeamManager.createTeam();
+        if (config.teamExperiment) {
+          TeamManager.createTeam();
+        }
         break;
       }
       // GoHomeFromOfflinePracticeMesage
@@ -78,7 +79,9 @@ export class Messaging {
           writeConfig(config);
         }
         Messaging.sendOfflineMessage(24101, OwnHomeDataMessage.encode());
-        TeamManager.createTeam();
+        if (config.teamExperiment) {
+          TeamManager.createTeam();
+        }
         break;
       }
       // AskForBattleEndMessage

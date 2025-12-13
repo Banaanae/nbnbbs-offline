@@ -1,13 +1,7 @@
-import {
-  AssetManager,
-  createAssetManager,
-  gAssetManager,
-} from "./assetmanagerandroid.js";
+import { createAssetManager } from "./assetmanagerandroid.js";
 import { base, load, player, setBase } from "./definitions.js";
 import { installHooks } from "./mainHooks.js";
-import { getOffsetsFromJSON } from "./offsets.js";
 import { isAndroid } from "./platform.js";
-import { getPackageName } from "./util.js";
 
 (async () => {
   console.log("Hello, world!");

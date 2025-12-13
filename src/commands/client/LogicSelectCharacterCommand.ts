@@ -6,8 +6,8 @@ import { LogicCommand } from "../../logiccommand.js";
 export class LogicSelectCharacterCommand {
   static decode(stream: ByteStream): any {
     stream = LogicCommand.decode(stream);
-    let brawlerID = stream.readDataReference().low;
-    return { stream, brawlerID };
+    let character = stream.readDataReference().low;
+    return { stream, character };
   }
 
   static execute(brawlerID: number) {

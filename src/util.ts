@@ -4,6 +4,8 @@ import { base, getString, malloc, pkgName, stringCtor } from "./definitions.js";
 import { Offsets } from "./offsets.js";
 import { isAndroid } from "./platform.js";
 
+let debugHookCounter = 0;
+
 const read = new NativeFunction(
   Process.getModuleByName(
     isAndroid ? "libc.so" : "libSystem.B.dylib",

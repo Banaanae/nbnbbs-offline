@@ -210,11 +210,15 @@ export function installHooks() {
   });
 
   Interceptor.replace(
-    base.add(Offsets.GetPlayerDraftMapNumLimit), 
-    new NativeCallback(() => {
-      return config.draftMapLimit
-    }, 'int', [])
-  )
+    base.add(Offsets.GetPlayerDraftMapNumLimit),
+    new NativeCallback(
+      () => {
+        return config.draftMapLimit;
+      },
+      "int",
+      [],
+    ),
+  );
 
   Interceptor.replace(
     base.add(Offsets.ReceiveTeamGameStartingMessage),
@@ -229,7 +233,7 @@ export function installHooks() {
         startGame(
           homePage,
           ptr(0),
-          new LogicData(15, 5).ptr,
+          new LogicData(15, 10).ptr,
           3,
           0,
           new LogicData(16, 0).ptr,

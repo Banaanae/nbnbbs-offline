@@ -6,8 +6,8 @@ import { LogicCommand } from "../../logiccommand.js";
 export class LogicSetPlayerNameColorCommand {
   static decode(stream: ByteStream): any {
     stream = LogicCommand.decode(stream);
-    let colorID = stream.readDataReference().low;
-    return { stream, colorID };
+    let namecolor = stream.readDataReference().low;
+    return { stream, namecolor };
   }
 
   static execute(colorID: number) {
