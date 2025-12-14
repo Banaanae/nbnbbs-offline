@@ -21,7 +21,9 @@ import { Dumper } from "./utility/dump.js";
       }
     }
     installHooks();
-    let dumper = new Dumper();
-    dumper.dump(0x410880);
+    if (!isAndroid) {
+      let dumper = new Dumper();
+      dumper.dump("eventdata", 0x3fc9e4);
+    }
   });
 })();

@@ -8,7 +8,7 @@ export class LogicSelectSkinCommand {
   static decode(stream: ByteStream): any {
     stream = LogicCommand.decode(stream);
     let skin = stream.readDataReference().low;
-    console.log("New skin id:", skinID);
+    console.log("New skin id:", skin);
     let unk1 = stream.readVint();
     return { stream, skin };
   }

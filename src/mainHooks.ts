@@ -8,7 +8,12 @@ import {
   setTextAndScaleIfNecessary,
 } from "./definitions.js";
 import { Messaging } from "./messaging.js";
-import { createStringObject, decodeString, getBotNames } from "./util.js";
+import {
+  backtrace,
+  createStringObject,
+  decodeString,
+  getBotNames,
+} from "./util.js";
 import { ByteStream } from "./bytestream.js";
 import { isAndroid } from "./platform.js";
 import { Logger } from "./utility/logger.js";

@@ -1,4 +1,4 @@
 #!/usr/bin/bash
+PKG=com.natesworks.nbsoffline.lightyear
 npm run build
-adb forward tcp:27042 tcp:27042
-frida -p $(adb shell pidof com.natesworks.nbsoffline.lightyear) -H 127.0.0.1:27042 -l script.js
+npx ts-node main.ts --name $PKG

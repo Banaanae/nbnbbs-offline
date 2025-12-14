@@ -242,3 +242,29 @@ export function getBotNames(n: number): string[] {
   }
   return shuffle(arr);
 }
+
+export function backtrace(ctx: CpuContext | undefined): void {
+  const frames: any[] = Thread.backtrace(ctx, Backtracer.FUZZY);
+  let lastAddr = "";
+  let printed = 0;
+  for (let i = 0; i < frames.length; i++) {
+    const f = frames[i];
+    const addrStr =
+      typeof f === "string" || typeof f === "number" ? String(f) : f.toString();
+    if (addrStr === lastAddr) continue;
+    lastAddr = addrStr;
+    const address = ptr(addrStr);
+    const m = Process.findModuleByAddress(address);
+    if (m) {
+      const off = address.sub(m.base).toString();
+      console.log(
+        `${printed.toString().padStart(2, " ")}  ${m.name} + ${off}  (${address})`,
+      );
+    } else {
+      console.log(
+        `${printed.toString().padStart(2, " ")}  <unknown>  (${address})`,
+      );
+    }
+    printed++;
+  }
+}
