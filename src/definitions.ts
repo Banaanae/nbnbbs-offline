@@ -55,6 +55,7 @@ export let setScaleY: any;
 export let getFontSize: any;
 export let setFontSize: any;
 export let loadAsset: any;
+export let setVerticallyCentered: any;
 
 export function load() {
   if (isAndroid) {
@@ -106,7 +107,6 @@ export function load() {
   setText = new NativeFunction(base.add(Offsets.SetText), "int64", [
     "pointer",
     "pointer",
-    "bool",
   ]);
   getMovieClip = new NativeFunction(base.add(Offsets.GetMovieClip), "pointer", [
     "pointer",
@@ -181,6 +181,11 @@ export function load() {
     "pointer",
     "bool",
   ]);
+  setVerticallyCentered = new NativeFunction(
+    base.add(Offsets.SetTextFieldVerticallyCentered),
+    "void",
+    ["pointer"],
+  );
 
   documentsDirectory = getDocumentsDirectory();
   configPath = documentsDirectory + "/config.json";

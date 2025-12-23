@@ -45,20 +45,18 @@ export function setupCustomSettings() {
     },
     onLeave() {
       this.addGameBtnHook.detach();
-      UI.createButton(
+      let btn = UI.createButton(
         guiContainer,
         "sc/ui.sc",
         "country_item",
-        "Edit config",
-        "Text",
+        true,
         editConfigPos.x,
         editConfigPos.y,
         180,
         90,
         1,
-        false,
-        22,
       );
+      UI.setButtonText(btn, "Text", "Edit configuration", true, true, 22);
     },
   });
 }

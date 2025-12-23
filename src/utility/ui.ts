@@ -14,6 +14,7 @@ import {
   setScaleY,
   setText,
   setTextAndScaleIfNecessary,
+  setVerticallyCentered,
   setWidth,
   setXY,
 } from "../definitions.js";
@@ -29,16 +30,13 @@ export class UI {
     guiContainer: NativePointer,
     scFile: string,
     item: string,
-    text: string,
-    textFieldName: string,
+    init = true,
     x: number,
     y: number,
     width: number | undefined = undefined,
     height: number | undefined = undefined,
     frameIndex: number | undefined = undefined,
-    multiline: boolean = false,
-    fontsize: number | undefined = undefined,
-  ) {
+  ): NativePointer {
     let btn = malloc(600);
     gameButtonConstructor(btn);
     let movieClip = getMovieClip(
@@ -51,19 +49,31 @@ export class UI {
       btn.readPointer().add(Offsets.InitFn).readPointer(),
       "void",
       ["pointer", "pointer", "bool"],
-    )(btn, movieClip, 1);
+    )(btn, movieClip, Number(init));
+    setXY(btn, x, y);
+    if (width) setWidth(btn, width);
+    if (height) setHeight(btn, height);
+    addChild(guiContainer, btn);
+    //Logger.debug("Added button");
+    return btn;
+  }
+
+  static setButtonText(
+    btn: NativePointer,
+    textFieldName: string,
+    text: string,
+    multiline = false,
+    centered = false,
+    fontSize: number | undefined = undefined,
+  ) {
     let textField = getTextFieldByName(
       btn.add(Offsets.ButtonText).readPointer(),
       Memory.allocUtf8String(textFieldName),
     );
-    setXY(btn, x, y);
-    if (width) setWidth(btn, width);
-    if (height) setHeight(btn, height);
-    setText(textField, createStringObject(text), 1);
+    setText(textField, createStringObject(text));
     setMultiline(textField, Number(multiline));
     autoAdjustText(textField, 1, 1, 1);
-    addChild(guiContainer, btn);
-    if (fontsize) setFontSize(textField, fontsize);
-    Logger.debug("Added button", text);
+    if (centered) setVerticallyCentered(textField);
+    if (fontSize) setFontSize(textField, fontSize);
   }
 }

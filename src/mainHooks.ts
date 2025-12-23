@@ -240,7 +240,7 @@ export function installHooks() {
         "Load asset retval",
         loadAsset(createStringObject("sc/debug.sc"), 0),
       );
-      DebugMenu.createDebugButton(guiContainer);
+      new DebugMenu(guiContainer).createDebugMenu();
     },
   });
 }

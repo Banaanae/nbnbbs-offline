@@ -13,10 +13,10 @@
     "CreateMessageByType": "0x3ecd4c",
     "LogicLaserMessageFactory": "0x101891e",
 
-    "GetMessageType": "0x28",
+    "GetMessageType": 40,
     "Destruct": "0x38",
     "Encode": "0x10",
-    "Decode": "0x18",
+    "Decode": 24,
     "Messaging": "0x48",
     "Version": "0x88",
     "PayloadOffset": "0x14",
@@ -94,6 +94,7 @@
     "GetFontSize": "0xbef71c",
     "SetFontSize": "0xbef314",
     "HomePageConstructor": "0x2d9a30",
-    "LoadAsset": "0x8ab4"
+    "LoadAsset": "0x8ab4",
+    "SetTextFieldVerticallyCentered": "0x326b24"
   }
 }
