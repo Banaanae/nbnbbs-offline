@@ -95,6 +95,9 @@
     "SetFontSize": "0xbef314",
     "HomePageConstructor": "0x2d9a30",
     "LoadAsset": "0x8ab4",
-    "SetTextFieldVerticallyCentered": "0x326b24"
+    "SetTextFieldVerticallyCentered": "0x326b24",
+    "ButtonPressed": "0xbf20bc",
+    "ShowFloaterTextAtDefaultPos": "0x99160",
+    "GUIInstance": "0x11827d0"
   }
 }

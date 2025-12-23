@@ -2,6 +2,8 @@ import { Offsets } from "../offsets";
 import {
   addChild,
   autoAdjustText,
+  ButtonHandler,
+  buttonHandlers,
   gameButtonConstructor,
   getMovieClip,
   getTextFieldByName,
@@ -21,8 +23,8 @@ import {
 import { createStringObject } from "../util.js";
 import { Logger } from "./logger";
 
-export class UI {
-  static hide(displayObject: NativePointer) {
+export class ButtonHelper {
+  static hideButton(displayObject: NativePointer) {
     setXY(displayObject, NaN, NaN);
   }
 
@@ -75,5 +77,14 @@ export class UI {
     autoAdjustText(textField, 1, 1, 1);
     if (centered) setVerticallyCentered(textField);
     if (fontSize) setFontSize(textField, fontSize);
+  }
+
+  static setButtonHandler(ptr: NativePointer, handler: ButtonHandler): void {
+    const entry = buttonHandlers.find((e) => e.ptr.equals(ptr));
+    if (entry) {
+      entry.handler = handler;
+    } else {
+      buttonHandlers.push({ ptr, handler });
+    }
   }
 }

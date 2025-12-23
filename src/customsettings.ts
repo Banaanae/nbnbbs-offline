@@ -11,7 +11,7 @@ import {
 } from "./definitions";
 import { Offsets } from "./offsets";
 import { Logger } from "./utility/logger";
-import { UI } from "./utility/ui";
+import { ButtonHelper } from "./utility/buttonhelper"
 
 let editControlsPos: any;
 let editConfigPos: any;
@@ -37,7 +37,7 @@ export function setupCustomSettings() {
               editConfigPos = { x: getX(btn), y: getY(btn) };
             }
             if (config.hiddenSettingsButtons.includes(this.name)) {
-              UI.hide(btn);
+              ButtonHelper.hideButton(btn);
             }
           },
         },
@@ -45,7 +45,7 @@ export function setupCustomSettings() {
     },
     onLeave() {
       this.addGameBtnHook.detach();
-      let btn = UI.createButton(
+      let btn = ButtonHelper.createButton(
         guiContainer,
         "sc/ui.sc",
         "country_item",
@@ -56,7 +56,7 @@ export function setupCustomSettings() {
         90,
         1,
       );
-      UI.setButtonText(btn, "Text", "Edit configuration", true, true, 22);
+      ButtonHelper.setButtonText(btn, "Text", "Edit configuration", true, true, 22);
     },
   });
 }

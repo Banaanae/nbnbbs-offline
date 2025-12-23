@@ -3,6 +3,7 @@ import { PiranhaMessage } from "./piranhamessage.js";
 import {
   base,
   botNames,
+  buttonHandlers,
   config,
   loadAsset,
   setBotNames,
@@ -241,6 +242,19 @@ export function installHooks() {
         loadAsset(createStringObject("sc/debug.sc"), 0),
       );
       new DebugMenu(guiContainer).createDebugMenu();
+    },
+  });
+
+  Interceptor.attach(base.add(Offsets.ButtonPressed), {
+    onEnter(args) {
+      const clicked = args[0];
+
+      for (const entry of buttonHandlers) {
+        if (entry.ptr.equals(clicked)) {
+          entry.handler(clicked);
+          break;
+        }
+      }
     },
   });
 }

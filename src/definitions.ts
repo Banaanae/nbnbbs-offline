@@ -56,6 +56,13 @@ export let getFontSize: any;
 export let setFontSize: any;
 export let loadAsset: any;
 export let setVerticallyCentered: any;
+export let showFloaterText: any;
+
+export type ButtonHandler = (ptr: NativePointer) => void;
+export const buttonHandlers: Array<{
+  ptr: NativePointer;
+  handler: ButtonHandler;
+}> = [];
 
 export function load() {
   if (isAndroid) {
@@ -185,6 +192,11 @@ export function load() {
     base.add(Offsets.SetTextFieldVerticallyCentered),
     "void",
     ["pointer"],
+  );
+  showFloaterText = new NativeFunction(
+    base.add(Offsets.ShowFloaterTextAtDefaultPos),
+    "pointer",
+    ["pointer", "pointer", "int64", "float"],
   );
 
   documentsDirectory = getDocumentsDirectory();

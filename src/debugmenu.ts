@@ -1,6 +1,8 @@
-import { setText } from "./definitions";
+import { base, setText, showFloaterText } from "./definitions";
 import { Logger } from "./utility/logger";
-import { UI } from "./utility/ui";
+import { ButtonHelper } from "./utility/buttonhelper";
+import { createStringObject } from "./util";
+import { Offsets } from "./offsets";
 
 export class DebugMenu {
   guiContainer: NativePointer;
@@ -10,10 +12,22 @@ export class DebugMenu {
   constructor(guiContainer: NativePointer) {
     this.guiContainer = guiContainer;
     this.createDebugButton();
+    ButtonHelper.setButtonHandler(this.toggle, this.onDebugButtonClick);
   }
+
+  onDebugButtonClick(button: NativePointer) {
+    Logger.debug("Button clicked");
+    showFloaterText(
+      base.add(Offsets.GUIInstance).readPointer(),
+      createStringObject("Hello, world!"),
+      -1,
+      0.0,
+    );
+  }
+
   createDebugButton() {
     Logger.debug("Creating debug button");
-    this.toggle = UI.createButton(
+    this.toggle = ButtonHelper.createButton(
       this.guiContainer,
       "sc/debug.sc",
       "debug_button",
@@ -21,26 +35,27 @@ export class DebugMenu {
       -40,
       575,
     );
-    UI.setButtonText(this.toggle, "txt", "D");
+    ButtonHelper.setButtonText(this.toggle, "txt", "D");
   }
 
   createDebugMenu() {
     Logger.debug("Creating debug menu");
-    this.menu = UI.createButton(
+    this.menu = ButtonHelper.createButton(
       this.guiContainer,
       "sc/debug.sc",
       "debug_menu",
       false,
-      250, // good is 1200; left 250
+      1200, // good is 1200; left 250
       0,
     );
     //UI.setButtonText(this.menu, "item_area", "Test");
     //UI.setButtonText(this.menu, "tab_area", "Test");
-    UI.setButtonText(this.menu, "version", "Beta 4 Testing");
-    UI.setButtonText(this.menu, "search_help", "Search...");
-    UI.setButtonText(this.menu, "title", "NBS Offline");
+    ButtonHelper.setButtonText(this.menu, "title", "NBS Offline");
+    ButtonHelper.setButtonText(this.menu, "version", "Beta 4 Testing");
+    ButtonHelper.setButtonText(this.menu, "search_help", "Search...");
+
     //UI.setButtonText(this.menu, "filter_input", "lol");
-    let test = UI.createButton(
+    let test = ButtonHelper.createButton(
       this.menu,
       "sc/debug.sc",
       "debug_menu_item",
@@ -48,6 +63,7 @@ export class DebugMenu {
       -150,
       100,
     );
-    UI.setButtonText(test, "Text", "Hello", false, true);
+    ButtonHelper.setButtonText(test, "Text", "Hello", false, true);
+    ButtonHelper.setButtonHandler(test, this.onDebugButtonClick);
   }
 }
