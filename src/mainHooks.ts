@@ -19,7 +19,7 @@ import {
 import { ByteStream } from "./bytestream.js";
 import { isAndroid } from "./platform.js";
 import { Logger } from "./utility/logger.js";
-import { DebugMenu } from "./debugmenu.js";
+import { DebugMenu } from "./debugmenu/debugmenu.js";
 
 let progress: number;
 let hasLoaded = false;
@@ -241,7 +241,7 @@ export function installHooks() {
         "Load asset retval",
         loadAsset(createStringObject("sc/debug.sc"), 0),
       );
-      new DebugMenu(guiContainer).createDebugMenu();
+      new DebugMenu(guiContainer);
     },
   });
 
