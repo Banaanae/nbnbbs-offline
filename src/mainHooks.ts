@@ -231,7 +231,7 @@ export function installHooks() {
 
   Interceptor.attach(base.add(Offsets.IsSupercellIDEnabled), {
     onLeave(retval) {
-      retval.replace(ptr(0));
+      retval.replace(ptr(Number(config.enableSupercellID)));
     },
   });
 

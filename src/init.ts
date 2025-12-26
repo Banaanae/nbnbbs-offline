@@ -21,8 +21,7 @@ import { setupCustomSettings } from "./customsettings.js";
     }
   }
   installHooks();
-  if (version == 59 && Process.platform == "darwin" && config.customSettings)
-    setupCustomSettings();
+  if (version == 59 && config.customSettings) setupCustomSettings();
   if (!isAndroid) {
     let dumper = new Dumper(true);
     dumper.dump("playerprofile", 0x41ba64);

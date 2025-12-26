@@ -26,7 +26,7 @@ export function setupCustomSettings() {
         {
           onEnter(args) {
             this.name = args[1].readCString();
-            //Logger.verbose("Adding button with name", this.name);
+            Logger.verbose("Adding button with name", this.name);
           },
           onLeave(btn) {
             if (this.name == "button_parentsguide") {
