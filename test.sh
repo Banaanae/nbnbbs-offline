@@ -1,4 +1,4 @@
 #!/usr/bin/bash
-PKG=com.natesworks.nbsoffline.lightyear
+adb forward tcp:27042 tcp:27042
 npm run build
-npx ts-node main.ts -n $PKG -P android
+ts-node main.ts

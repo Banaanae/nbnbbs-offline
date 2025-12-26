@@ -17,6 +17,11 @@ export const malloc = new NativeFunction(
   ["uint"],
 );
 
+export const mkdir = new NativeFunction(libc.getExportByName("mkdir"), "int", [
+  "pointer",
+  "int",
+]);
+
 export let player = new Player();
 export let documentsDirectory: string;
 export let configPath: string;
@@ -65,10 +70,12 @@ export const buttonHandlers: Array<{
 }> = [];
 
 export function load() {
-  if (isAndroid) {
-    pkgName = getPackageName();
-    Logger.verbose("Package name:", pkgName);
-  }
+  pkgName = getPackageName();
+  documentsDirectory = getDocumentsDirectory();
+  configPath = documentsDirectory + "/config.json";
+  config = readConfig();
+  player.applyConfig(config);
+
   version = getOffsetsFromJSON();
 
   createMessageByType = new NativeFunction(
@@ -198,11 +205,6 @@ export function load() {
     "pointer",
     ["pointer", "pointer", "int64", "float"],
   );
-
-  documentsDirectory = getDocumentsDirectory();
-  configPath = documentsDirectory + "/config.json";
-  config = readConfig();
-  player.applyConfig(config);
 }
 
 export function setBase(ptr: NativePointer) {

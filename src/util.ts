@@ -1,6 +1,13 @@
 import { gAssetManager } from "./utility/assetmanagerandroid.js";
 import { Brawler } from "./brawler.js";
-import { base, getString, malloc, pkgName, stringCtor } from "./definitions.js";
+import {
+  base,
+  getString,
+  malloc,
+  mkdir,
+  pkgName,
+  stringCtor,
+} from "./definitions.js";
 import { Offsets } from "./offsets.js";
 import { isAndroid } from "./platform.js";
 
@@ -41,7 +48,7 @@ export function getMessageManagerInstance(): NativePointer {
 }
 
 export function getDocumentsDirectory(): string {
-  if (!isAndroid && ObjC.available) {
+  if (!isAndroid) {
     var NSFileManager = ObjC.classes.NSFileManager;
     var fm = NSFileManager.defaultManager();
 
@@ -52,7 +59,9 @@ export function getDocumentsDirectory(): string {
       .toString();
     return docsPath;
   } else {
-    return `/data/data/${pkgName}`;
+    let path = `/storage/emulated/0/Android/media/${pkgName}`;
+    mkdir(Memory.allocUtf8String(path), 777);
+    return path;
   }
 }
 

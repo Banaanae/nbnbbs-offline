@@ -7,7 +7,7 @@ export class DebugMenu {
   toggle: NativePointer = NULL;
   menu: NativePointer = NULL;
   menuVisible = true;
-  debugPosition = 1225; // good is 1200; left 250
+  debugPosition = 1225; // good is 1225; left 250
   start = 100;
   step = 55;
   next = this.start;
