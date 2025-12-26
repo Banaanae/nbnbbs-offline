@@ -233,6 +233,7 @@ kubune:
 
 banaanae:
 - Draft map limit config option allowing for more maps
+- Some offsets
 `;
 
 export function setBotNames(x: string[]) {
