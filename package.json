@@ -6,7 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "prepare": "npm run build",
-    "build": "esbuild src/init.ts --outfile=script.js --bundle"
+    "build": "node esbuild.config.js"
   },
   "devDependencies": {
     "@types/frida-gum": "^18.3.1",

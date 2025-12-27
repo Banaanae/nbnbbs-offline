@@ -1,4 +1,4 @@
-{
+export const raw = {
   "version": 64,
   "platform": "android",
   "offsets": {

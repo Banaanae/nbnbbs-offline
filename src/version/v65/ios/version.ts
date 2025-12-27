@@ -1,4 +1,4 @@
-{
+export const raw = {
   "version": 65,
   "platform": "iOS",
   "offsets": {
