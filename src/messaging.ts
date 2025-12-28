@@ -59,8 +59,7 @@ export class Messaging {
       // ClientHelloMessage
       case 10100: {
         Messaging.sendOfflineMessage(20104, LoginOkMessage.encode());
-        if (version == 59)
-          Messaging.sendOfflineMessage(24101, OwnHomeDataMessage.encode());
+        Messaging.sendOfflineMessage(24101, OwnHomeDataMessage.encode());
         if (config.teamExperiment) {
           TeamManager.createTeam();
         }

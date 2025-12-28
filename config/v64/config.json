@@ -24,10 +24,8 @@
   "duoVictories": 0,
   "mostChallengeWins": 0,
   "lobbyinfo": "",
-  "enableBrawlPass": false,
   "enableShop": false,
   "enableClubs": false,
-  "brawlPassPremium": true,
   "china": false,
   "artTest": false,
   "customLoadingScreen": true,
@@ -52,6 +50,12 @@
     "r35brawlers": 0
   },
   "enableSupercellID": false,
+  "brawlpass": {
+    "enabled": true,
+    "hasPremium": true,
+    "hasPlus": true,
+    "tokens": 40000
+  },
   "events": [
     {
       "slot": 2,

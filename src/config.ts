@@ -77,6 +77,8 @@ export class Config {
     "button_privacy_settings",
   ];
   customSettings = true;
+  passTokens = 40000;
+  plus = true;
 }
 export function tryLoadDefaultConfig() {
   try {
@@ -117,8 +119,6 @@ export function readConfig() {
     json.enableBrawlPass == null ? false : json.enableBrawlPass;
   config.enableShop = json.enableShop == null ? false : json.enableShop;
   config.enableClubs = json.enableClubs == null ? false : json.enableClubs;
-  config.brawlPassPremium =
-    json.brawlPassPremium == null ? true : json.brawlPassPremium;
   config.disableBots = json.disableBots == null ? false : json.disableBots;
   config.infiniteAmmo = json.infiniteAmmo == null ? false : json.infiniteAmmo;
   config.infiniteSuper =
@@ -175,6 +175,12 @@ export function readConfig() {
   config.logLevel = json.logLevel || 0;
   config.enableSupercellID = json.enableSupercellID || false;
   config.customSettings = json.customSettings || true;
+  if (json.brawlpass) {
+    config.enableBrawlPass = json.brawlpass.enabled;
+    config.brawlPassPremium = json.brawlpass.hasPremium;
+    config.plus = json.brawlpass.hasPlus;
+    config.passTokens = json.brawlpass.tokens;
+  }
 
   return config;
 }
@@ -201,10 +207,8 @@ export function writeConfig(config: Config) {
   data.duoVictories = config.duoWins;
   data.mostChallengeWins = config.challengeWins;
   data.lobbyinfo = config.lobbyinfo;
-  data.enableBrawlPass = config.enableBrawlPass;
   data.enableShop = config.enableShop;
   data.enableClubs = config.enableClubs;
-  data.brawlPassPremium = config.brawlPassPremium;
   data.disableBots = config.disableBots;
   data.infiniteAmmo = config.infiniteAmmo;
   data.infiniteSuper = config.infiniteSuper;
@@ -256,6 +260,13 @@ export function writeConfig(config: Config) {
     data.logLevel = config.logLevel;
     data.enableSupercellID = config.enableSupercellID;
     data.customSettings = config.customSettings;
+
+    data.brawlpass = {
+      enabled: config.enableBrawlPass,
+      hasPremium: config.brawlPassPremium,
+      hasPlus: config.plus,
+      tokens: config.passTokens,
+    };
   }
 
   const remove = new NativeFunction(libc.getExportByName("remove"), "int", [

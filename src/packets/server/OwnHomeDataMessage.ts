@@ -1,15 +1,18 @@
 import { Player } from "../../player.js";
 import { ByteStream } from "../../bytestream.js";
-import { config, player } from "../../definitions.js";
+import { config, player, version } from "../../definitions.js";
 import { Logger } from "../../utility/logger.js";
 
 export class OwnHomeDataMessage {
   static encode(): number[] {
     let stream = new ByteStream([]);
-    const currentTime = Date.now() / 1000 + 3600 * 4;
 
-    stream.writeVInt(currentTime);
+    stream.writeVInt(0); // timestamp
     stream.writeVInt(0);
+
+    // LogicClientHome
+    // LogicDailyData
+
     stream.writeVInt(0);
     stream.writeVInt(0);
 
@@ -29,38 +32,39 @@ export class OwnHomeDataMessage {
     stream.writeVInt(0);
     stream.writeVInt(player.ownedSkins.length);
     player.ownedSkins.forEach((x) => stream.writeDataReference(29, x));
-    stream.writeVInt(1080);
-    for (let i = 0; i < 1080; i++) stream.writeDataReference(29, i);
     stream.writeVInt(0);
-    stream.writeVInt(0); // e
+    stream.writeVInt(0);
+    stream.writeVInt(0);
     stream.writeVInt(player.highestTrophies);
     stream.writeVInt(0);
-    stream.writeVInt(2);
-    stream.writeBoolean(true);
+    stream.writeVInt(2); // control mode
+    stream.writeBoolean(false); // battle hints
     stream.writeVInt(player.tokenDoublers);
-    stream.writeVInt(335442);
-    stream.writeVInt(1001442);
-    stream.writeVInt(5778642);
+    stream.writeVInt(0); // bp season timer
     stream.writeVInt(0);
+    stream.writeVInt(0);
+    stream.writeVInt(0); // time to next season
 
     stream.writeVInt(120);
     stream.writeVInt(200);
-    stream.writeVInt(0);
+
+    stream.writeVInt(0); // forced drops
 
     stream.writeBoolean(true);
     stream.writeVInt(2);
     stream.writeVInt(2);
     stream.writeVInt(2);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    stream.writeVInt(0); // change name cost
+    stream.writeVInt(0); // timer for next name change
+    if (version >= 63) stream.writeVInt(0); // new vint idk when it was added
 
     stream.writeVInt(0); // shop offers
-    stream.writeVInt(20);
-    stream.writeVInt(1428);
+    stream.writeVInt(0); // quests battle xp
+    stream.writeVInt(0); // time left until xp reset
 
     stream.writeVInt(0);
 
-    stream.writeVInt(1);
+    stream.writeVInt(1); // array
     stream.writeVInt(30);
 
     stream.writeByte(player.selectedBrawlers.length);
@@ -95,73 +99,51 @@ export class OwnHomeDataMessage {
     stream.writeDataReference(32447, 28);
     stream.writeDataReference(16, 5);
 
-    stream.writeVInt(0);
+    stream.writeVInt(0); // cooldown entry
 
     // brawl pass
-    let pass32LVL = 0;
-    let pass64LVL = 0;
-    let pass96LVL = 0;
-
-    let free32LVL = 0;
-    let free64LVL = 0;
-    let free96LVL = 0;
-
-    for (const level of player.brawlPassFreeLevel) {
-      if (level < 30) {
-        free32LVL += 2 ** (level + 2);
-      }
-      if (level > 30) {
-        free64LVL += 2 ** (level - 30);
-      }
-      if (level > 61) {
-        free96LVL += 1 ** (level - 61);
-      }
-    }
-
-    for (const level of player.brawlPassLevel) {
-      if (level < 30) {
-        pass32LVL += 2 ** (level + 2);
-      }
-      if (level > 29) {
-        pass64LVL += 2 ** (level - 30);
-      }
-      if (level > 60) {
-        pass96LVL += 1 ** (level - 61);
-      }
-    }
-
     // season data
-    stream.writeVInt(1);
-    stream.writeVInt(34); // season
-    stream.writeVInt(player.passTokens);
-    stream.writeBoolean(player.brawlPassActive);
+    let season = version == 59 ? 35 : 42;
+    stream.writeVInt(1); // arr len
+    stream.writeVInt(season - 1);
+    stream.writeVInt(config.passTokens);
+    stream.writeBoolean(config.brawlPassPremium);
     stream.writeVInt(0);
     stream.writeBoolean(false);
 
     stream.writeBoolean(true);
-    stream.writeInt(pass32LVL);
-    stream.writeInt(pass64LVL);
-    stream.writeInt(pass96LVL);
-    stream.writeInt(0);
+    // bit list
+    stream.writeInt(-1);
+    stream.writeInt(-1);
+    stream.writeInt(-1);
+    stream.writeInt(-1);
 
     stream.writeBoolean(true);
-    stream.writeInt(free32LVL);
-    stream.writeInt(free64LVL);
-    stream.writeInt(free96LVL);
-    stream.writeInt(0);
+    // bit list
+    stream.writeInt(-1);
+    stream.writeInt(-1);
+    stream.writeInt(-1);
+    stream.writeInt(-1);
 
-    stream.writeBoolean(player.brawlPassPlusActive);
+    stream.writeBoolean(config.plus);
+
     stream.writeBoolean(true);
-    stream.writeInt(0);
-    stream.writeInt(0);
-    stream.writeInt(0);
-    stream.writeInt(0);
+    // bit list
+    stream.writeInt(-1);
+    stream.writeInt(-1);
+    stream.writeInt(-1);
+    stream.writeInt(-1);
 
+    // end of  bp
+
+    // quests
     stream.writeBoolean(true);
     stream.writeVInt(0);
-    stream.writeVInt(1);
-    stream.writeVInt(2);
+    stream.writeVInt(1); // 0
+    stream.writeVInt(2); // 0
     stream.writeVInt(0);
+    if (version >= 64) stream.writeVInt(0); // new
+    // end
 
     stream.writeBoolean(true);
     stream.writeVInt(
@@ -178,17 +160,37 @@ export class OwnHomeDataMessage {
     stream.writeDataReference(28, 186);
     stream.writeVInt(0);
 
-    stream.writeBoolean(false); // powerleague data
+    stream.writeBoolean(false); // ranked data
 
     stream.writeInt(0);
     stream.writeVInt(0);
     stream.writeDataReference(16, player.favouriteBrawler);
-    stream.writeBoolean(false);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    stream.writeBoolean(false); // LogicRewards
+    if (version == 59) {
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+    } else {
+      stream.writeVInt(-1);
+      stream.writeVInt(0);
+      stream.writeVInt(832099);
+      stream.writeVInt(1616899);
+      stream.writeVInt(10659101);
+      stream.writeVInt(0);
+      stream.writeVInt(0); // arr
+      stream.writeVInt(0); // arr
+      stream.writeDataReference(52, 462);
+      stream.writeDataReference(12, 460);
+      stream.writeDataReference(68, 464);
+      stream.writeDataReference(92, 466);
+      stream.writeBoolean(false);
+      stream.writeDataReference(93, 473);
+      stream.writeVInt(0);
+      stream.writeBoolean(false);
+      stream.writeBoolean(false);
+    }
 
     // daily data end
     // conf data
@@ -196,7 +198,8 @@ export class OwnHomeDataMessage {
     stream.writeVInt(-1);
 
     // events
-    stream.writeVInt(40);
+    // 52
+    stream.writeVInt(40); // event slots
     for (let i = 0; i < 40; i++) stream.writeVInt(i);
 
     stream.writeVInt(config.events.length);
@@ -204,13 +207,19 @@ export class OwnHomeDataMessage {
     for (const event of config.events) {
       stream.writeVInt(-1);
       stream.writeVInt(event.slot);
-      stream.writeVInt(event.slot);
+      stream.writeVInt(0);
       stream.writeVInt(0);
       stream.writeVInt(0);
       stream.writeVInt(10);
       stream.writeDataReference(15, event.mapID);
-      stream.writeVInt(-1);
-      stream.writeVInt(2); // MapStatus
+      if (version >= 64) {
+        stream.writeDataReference(48, 6);
+        stream.writeVInt(0);
+      } else {
+        stream.writeVInt(-1);
+        stream.writeVInt(2); // MapStatus
+      }
+
       stream.writeString("");
       stream.writeVInt(0);
       stream.writeVInt(0);
@@ -224,10 +233,11 @@ export class OwnHomeDataMessage {
         stream.writeVInt(0);
       }
 
-      stream.writeVInt(0); // Modifiers
-      stream.writeVInt(0); // Wins
+      stream.writeVInt(0); // modifiers
+      stream.writeVInt(0); // wins
       stream.writeVInt(6);
       stream.writeBoolean(false); // MapMaker map structure array
+      if (version >= 63) stream.writeBoolean(false);
       stream.writeVInt(0);
       stream.writeBoolean(false); // Power League array entry
       stream.writeVInt(0);
@@ -258,9 +268,12 @@ export class OwnHomeDataMessage {
         stream.writeBoolean(false);
       }
 
-      stream.writeVInt(1);
-      stream.writeVInt(6);
-
+      if (version == 59) {
+        stream.writeVInt(1);
+        stream.writeVInt(6);
+      } else {
+        stream.writeVInt(-1);
+      }
       if (
         [20, 21, 22, 23, 24, 35, 36].includes(event.slot) &&
         event.championShipInfo
@@ -281,9 +294,17 @@ export class OwnHomeDataMessage {
       stream.writeBoolean(false);
       stream.writeBoolean(false);
       stream.writeBoolean(false);
+      if (version >= 63) {
+        stream.writeBoolean(false);
+        stream.writeBoolean(false);
+      }
+      if (version >= 64) {
+        stream.writeBoolean(false);
+      }
     }
 
-    stream.writeVInt(0);
+    stream.writeVInt(0); // event data
+    if (version >= 62) stream.writeVInt(0); // event data
 
     const brawlerUpgradeCost = [
       20, 35, 75, 140, 290, 480, 800, 1250, 1875, 2800,
@@ -304,7 +325,7 @@ export class OwnHomeDataMessage {
       stream.writeVInt(amount);
     }
 
-    stream.writeVInt(0);
+    stream.writeVInt(0); // release entry
 
     // int value entry
     stream.writeVInt(6);
@@ -315,65 +336,85 @@ export class OwnHomeDataMessage {
     stream.writeDataReference(73, 1);
     stream.writeDataReference(16, 5);
 
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    // idk which is new
+    stream.writeVInt(0); // timed int value entry
+    stream.writeVInt(0); // ad
+    stream.writeVInt(0); // theme override entry
+    if (version >= 64) stream.writeVInt(0); // fortune cookie
 
-    stream.writeVInt(1);
-    stream.writeVInt(1);
-    stream.writeBoolean(true);
-    stream.writeString("1a1d6744f7dfb7bcfa54e3876c944b1da9d075db");
-    stream.writeString(
-      "/3f8dc547-1aed-4d85-81b0-32ead16f7474_collab_toystory.sc",
-    );
-    stream.writeVInt(83);
-    stream.writeVInt(6);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    // event asset list
+    if (version == 59) {
+      stream.writeVInt(1); // array
+      stream.writeVInt(1);
+      stream.writeBoolean(true);
+      stream.writeString("1a1d6744f7dfb7bcfa54e3876c944b1da9d075db");
+      stream.writeString(
+        "/3f8dc547-1aed-4d85-81b0-32ead16f7474_collab_toystory.sc",
+      );
+      stream.writeVInt(83);
+      stream.writeVInt(6);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+    } else {
+      stream.writeVInt(0);
+    }
 
+    stream.writeVInt(0); // join club event entry
+    stream.writeVInt(0); // daily fortune cookie
+    stream.writeVInt(0); // chronos event asset list
+    stream.writeVInt(0); // shop visual offer grouping entry
     stream.writeVInt(0);
     stream.writeVInt(0);
     stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    if (version >= 64) {
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+    }
 
     // logicconfdata end
 
     stream.writeLong(player.id[0], player.id[1]);
 
     stream.writeVInt(0); // notification count
-
     stream.writeVInt(1);
-    stream.writeBoolean(false);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeBoolean(false);
-    stream.writeBoolean(false);
+
+    // gatcha drop
     stream.writeBoolean(false);
     stream.writeVInt(0);
 
-    stream.writeBoolean(true); // starr road
+    stream.writeVInt(0); // Roguelite completed brawler amounts
+    stream.writeVInt(0); // arr
 
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(1); // todo: unlocking brawler
-    stream.writeDataReference(16, 0);
-    stream.writeVInt(2); // credits needed
-    stream.writeVInt(10000); // gem unlock price
-    stream.writeVInt(0);
-    stream.writeVInt(1); // current credits
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    // login calendar
+    stream.writeBoolean(false);
+    stream.writeBoolean(false);
+    stream.writeBoolean(false);
+    if (version >= 63) stream.writeBoolean(false);
 
-    stream.writeVInt(0);
+    stream.writeVInt(0); // gears
 
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    if (false) {
+      stream.writeBoolean(true); // starr road
+      stream.writeVInt(0); // arr
+      stream.writeVInt(0); // arr
+      stream.writeVInt(0); // actually data reference
+      stream.writeVInt(1); // how many brawlers are being unlocked
+      stream.writeDataReference(16, 0);
+      stream.writeVInt(2); // credits needed
+      stream.writeVInt(10000); // gem unlock price
+      stream.writeVInt(0);
+      stream.writeVInt(1); // current credits
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+      stream.writeVInt(0);
+    } else {
+      stream.writeBoolean(false);
+    }
 
     // mastery
     stream.writeVInt(Object.keys(player.ownedBrawlers).length);
@@ -385,46 +426,64 @@ export class OwnHomeDataMessage {
       stream.writeDataReference(16, Number(brawlerID)); // Brawler ID
     }
 
-    // battle card
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    // battle card; doesnt work in offline battles
+    stream.writeDataReference(100, 1);
+    stream.writeDataReference(28, -1); // Icon 1
+    stream.writeDataReference(28, -1); // Icon 2
+    stream.writeDataReference(52, -1); // Pin
+    stream.writeDataReference(76, -1); // Title
+    if (version >= 63) {
+      stream.writeVInt(0);
+    }
     stream.writeBoolean(false);
     stream.writeBoolean(false);
     stream.writeBoolean(false);
     stream.writeBoolean(false);
+    if (version >= 63) {
+      stream.writeBoolean(false);
+    }
 
     stream.writeVInt(0); // brawler battle cards
 
-    // starr drop data
+    // random reward manager
     stream.writeVInt(14);
     for (let i = 0; i < 14; i++) {
       stream.writeDataReference(80, i);
       stream.writeVInt(-1);
       stream.writeVInt(0);
     }
-    stream.writeVInt(0);
+    stream.writeVInt(0); // arr
     stream.writeInt(-1435281534);
+    if (version >= 64) stream.writeBoolean(false);
     stream.writeVInt(0); // progression step in battles
     stream.writeVInt(0);
     stream.writeVInt(86400 * 24);
+    stream.writeVInt(0); // arr
     stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    stream.writeVInt(0); // arr
+    stream.writeVInt(0); // arr
+    stream.writeVInt(0); // arr
     stream.writeVInt(0);
     stream.writeBoolean(false);
+    if (version >= 64) stream.writeVInt(0);
 
-    stream.writeBoolean(false);
-    stream.writeBoolean(false);
-    stream.writeBoolean(false);
-    stream.writeVInt(0);
-    stream.writeBoolean(false);
+    stream.writeBoolean(false); // piggy
+    stream.writeBoolean(false); // collab event data
+    stream.writeBoolean(false); // special eent data
+    stream.writeVInt(0); // last seen states from friendlist
+    stream.writeBoolean(false); // contest event data
+    if (version >= 63) {
+      stream.writeBoolean(false); // records
+      stream.writeBoolean(false);
+      stream.writeBoolean(false);
+      stream.writeVInt(0); // special event data arr
+    }
+    if (version >= 64) {
+      stream.writeVInt(0);
+    }
 
     // end LogicClientHome
+    // LogicClientAvatar
 
     stream.writeVLong(player.id[0], player.id[1]);
     stream.writeVLong(player.id[0], player.id[1]);
@@ -433,25 +492,25 @@ export class OwnHomeDataMessage {
     stream.writeBoolean(config.registered);
     stream.writeInt(-1);
 
-    stream.writeVInt(24);
+    let count = version == 59 ? 24 : 30;
     const unlockedBrawler = Object.values(player.ownedBrawlers).map(
       (i) => i.cardID,
     );
+
+    stream.writeVInt(count);
+
     stream.writeVInt(unlockedBrawler.length + 3);
     for (const x of unlockedBrawler) {
       stream.writeDataReference(23, x);
       stream.writeVInt(-1);
       stream.writeVInt(1);
     }
-
     stream.writeDataReference(5, 8);
     stream.writeVInt(-1);
     stream.writeVInt(player.coins);
-
     stream.writeDataReference(5, 21);
     stream.writeVInt(-1);
     stream.writeVInt(0); // todo star road
-
     stream.writeDataReference(5, 23);
     stream.writeVInt(-1);
     stream.writeVInt(player.bling);
@@ -498,21 +557,9 @@ export class OwnHomeDataMessage {
       stream.writeVInt(brawlerData.state);
     }
 
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
+    for (let i = 0; i < count - 7; i++) {
+      stream.writeVInt(0);
+    }
 
     stream.writeVInt(player.gems); // Diamonds
     stream.writeVInt(player.gems); // Free Diamonds
@@ -526,12 +573,19 @@ export class OwnHomeDataMessage {
     stream.writeVInt(20); // NpcWinCount
     stream.writeVInt(0); // NpcLoseCount
     stream.writeVInt(config.tutorial ? 0 : 2); // TutorialState
-    stream.writeVInt(12);
     stream.writeVInt(0);
     stream.writeVInt(0);
+    stream.writeVInt(0);
+    if (version >= 63) stream.writeVInt(0);
+    if (version >= 64) stream.writeVInt(0);
     stream.writeString("");
     stream.writeVInt(0);
     stream.writeVInt(0);
+    if (version >= 63) {
+      stream.writeVInt(0);
+      if (version >= 64) stream.writeVInt(0);
+      stream.writeBoolean(false);
+    }
 
     return stream.payload;
   }

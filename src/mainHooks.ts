@@ -18,7 +18,6 @@ import {
   getBotNames,
 } from "./util.js";
 import { ByteStream } from "./bytestream.js";
-import { isAndroid } from "./platform.js";
 import { Logger } from "./utility/logger.js";
 import { DebugMenu } from "./debugmenu/debugmenu.js";
 
@@ -104,13 +103,6 @@ export function installHooks() {
     },
   });
 
-  /*
-  Interceptor.replace(
-    base.add(Offsets.SendKeepAliveMessage),
-    new NativeCallback(function () {}, "void", []),
-  );
-  */
-
   Interceptor.replace(
     base.add(Offsets.Send),
     new NativeCallback(
@@ -173,6 +165,12 @@ export function installHooks() {
         );
         this.goToAndStopFrameIndexHook.detach();
       }
+    },
+  });
+
+  Interceptor.attach(base.add(0x9178b0), {
+    onLeave(retval) {
+      console.log(retval.toInt32());
     },
   });
 
