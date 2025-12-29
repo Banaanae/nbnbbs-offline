@@ -26,6 +26,7 @@ import { TeamGameStartingMessage } from "./packets/server/TeamGameStartingMessag
 import { Logger } from "./utility/logger.js";
 import { LoginOkMessage } from "./packets/server/LoginOkMessage.js";
 import { AskForBattleEndMessage } from "./packets/client/AskForBattleEndMessage.js";
+import { SetCountryMessage } from "./packets/client/SetCountryMessage.js"
 
 export class Messaging {
   static sendOfflineMessage(id: number, payload: number[]): NativePointer {
@@ -122,6 +123,10 @@ export class Messaging {
       }
       case 12101: {
         DeletePlayerMapMessage.execute(DeletePlayerMapMessage.decode(stream));
+        break;
+      }
+      case 12998: {
+        SetCountryMessage.execute(SetCountryMessage.decode(stream));
         break;
       }
       case 14350: {

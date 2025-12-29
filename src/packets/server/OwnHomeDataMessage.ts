@@ -71,7 +71,7 @@ export class OwnHomeDataMessage {
     for (const brawler of player.selectedBrawlers) {
       stream.writeDataReference(16, brawler);
     }
-    stream.writeString(player.region);
+    stream.writeString(config.region);
     stream.writeString(config.supportedCreator);
 
     stream.writeVInt(23); // int values

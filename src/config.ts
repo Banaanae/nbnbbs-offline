@@ -44,6 +44,7 @@ export class Config {
   fameCredits: number = 0;
   favouriteBrawler: number = 0;
   rankedReputation: number = 0;
+  region: string = "";
   supportedCreator: string = "";
   allCreatorCodesValid = false;
   creatorCodes: string[] = [];
@@ -151,6 +152,7 @@ export function readConfig() {
   config.fameCredits = json.fameCredits;
   config.favouriteBrawler = json.favouriteBrawler;
   config.rankedReputation = json.rankedReputation || 100;
+  config.region = json.region || "PL";
   config.supportedCreator = json.supportedCreator || "Natesworks";
   config.allCreatorCodesValid = json.allCreatorCodesValid || false;
   config.creatorCodes = json.creatorCodes || ["Natesworks", "kubune", "Hallo"];
@@ -216,6 +218,7 @@ export function writeConfig(config: Config) {
   data.artTest = config.artTest;
   data.customLoadingScreen = config.customLoadingScreen;
   data.debugMenu = config.debugMenu;
+  data.region = config.region;
   data.supportedCreator = config.supportedCreator;
   data.allCreatorCodesValid = config.allCreatorCodesValid;
   data.creatorCodes = config.creatorCodes;
