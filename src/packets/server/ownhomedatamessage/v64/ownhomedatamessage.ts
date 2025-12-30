@@ -576,9 +576,10 @@ export class OwnHomeDataMessage {
     stream.writeVInt(0);
     stream.writeVInt(0);
     stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(0);
-    stream.writeVInt(10);
+
+    stream.writeVInt(config.gems);
+    stream.writeVInt(config.gems);
+    stream.writeVInt(config.experienceLevel);
     stream.writeVInt(100);
     stream.writeVInt(0); // CumulativePurchasedDiamonds / Level Tier
     stream.writeVInt(100); // Battle Count
