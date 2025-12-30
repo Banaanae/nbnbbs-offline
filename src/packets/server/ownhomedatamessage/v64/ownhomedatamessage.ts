@@ -206,7 +206,7 @@ export class OwnHomeDataMessage {
       stream.writeVInt(0);
       stream.writeVInt(0);
       stream.writeVInt(0);
-      stream.writeVInt(10);
+      stream.writeVInt(0); // how many credits to claim
       stream.writeDataReference(15, event.mapID);
       stream.writeDataReference(48, event.gmv);
       stream.writeVInt(0);
