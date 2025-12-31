@@ -5,28 +5,26 @@ import {
   createMessageByType,
   messageManagerReceiveMessage,
   operator_new,
-  version,
 } from "./definitions";
 import { PiranhaMessage } from "./piranhamessage";
 import { getMessageManagerInstance } from "./util";
 import { TeamManager } from "./teams/teammanager";
-import { OwnHomeDataMessage } from 'OwnHomeDataMessage'
+import { OwnHomeDataMessage } from "OwnHomeDataMessage";
 import { writeConfig } from "./config";
 import { PlayerProfileMessage } from "./packets/server/playerprofilemessage";
 import { AvatarNameCheckRequestMessage } from "./packets/client/namechange/avatarnamecheckmessage";
 import { ByteStream } from "./bytestream";
 import { ChangeAvatarNameMessage } from "./packets/client/namechange/changeavatarnamemessage";
-import { EndClientTurnMessage } from "./packets/client/endclientturnmessage"
-import { SetSupportedCreatorMessage } from "./packets/client/setsupportedcreatormessage"
-import { CreatePlayerMapMessage } from "./packets/client/mapmaker/createplayermapmessage"
-import { PlayerMapsMessage } from "./packets/server/mapmaker/playermapsmessage"
-import { DeletePlayerMapMessage } from "./packets/client/mapmaker/deleteplayermapmessage"
-import { TeamCreateMessage } from "./packets/client/teams/teamcreatemessage"
-import { Logger } from "./utility/logger"
-import { LoginOkMessage } from "./packets/server/loginokmessage"
-import { AskForBattleEndMessage } from "./packets/client/askforbattleendmessage"
-import { SetCountryMessage } from "./packets/client/setcountrymessage"
-
+import { EndClientTurnMessage } from "./packets/client/endclientturnmessage";
+import { SetSupportedCreatorMessage } from "./packets/client/setsupportedcreatormessage";
+import { CreatePlayerMapMessage } from "./packets/client/mapmaker/createplayermapmessage";
+import { PlayerMapsMessage } from "./packets/server/mapmaker/playermapsmessage";
+import { DeletePlayerMapMessage } from "./packets/client/mapmaker/deleteplayermapmessage";
+import { TeamCreateMessage } from "./packets/client/teams/teamcreatemessage";
+import { Logger } from "./utility/logger";
+import { LoginOkMessage } from "./packets/server/loginokmessage";
+import { AskForBattleEndMessage } from "./packets/client/askforbattleendmessage";
+import { SetCountryMessage } from "./packets/client/setcountrymessage";
 
 export class Messaging {
   static sendOfflineMessage(id: number, payload: number[]): NativePointer {

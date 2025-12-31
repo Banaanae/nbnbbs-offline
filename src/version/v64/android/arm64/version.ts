@@ -35,6 +35,7 @@ export const version = {
     StartGame: "0x87c618",
     OperatorNew: "0x1001d10",
 
+    SettingsScreenConstructor: "0x8c1cd0",
     SetTextAndScaleIfNecessary: "0x8fc824",
     UpdateLoadingProgress: "0x8ddfec",
     GotoAndStopFrameIndex: "0xb4e0bc",
@@ -48,5 +49,13 @@ export const version = {
     GlobalID: 32,
 
     IsSupercellIDEnabled: "0x8c2d80",
+
+    AddGameButton: "0x550c6c",
+    GetX: "0xb49684",
+    SetX: "0xb49628",
+    GetY: "0xb496d8",
+    SetY: "0xb49630",
+    SetXY: "0xb49638",
+    SetText: "0xb7b7f4",
   },
 };

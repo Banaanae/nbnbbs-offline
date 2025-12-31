@@ -8,7 +8,7 @@ import {
   loadAsset,
   setBotNames,
   setTextAndScaleIfNecessary,
-  version,
+  stringCtor,
 } from "./definitions.js";
 import { Messaging } from "./messaging.js";
 import {
@@ -20,6 +20,7 @@ import {
 import { ByteStream } from "./bytestream.js";
 import { Logger } from "./utility/logger.js";
 import { DebugMenu } from "./debugmenu/debugmenu.js";
+import { version } from "version";
 
 let progress: number;
 let hasLoaded = false;
@@ -199,7 +200,7 @@ export function installHooks() {
     },
   });
 
-  if (version == 59) {
+  if (version.gmv == 59) {
     Interceptor.attach(base.add(Offsets.HomePageConstructor), {
       onLeave(guiContainer) {
         Logger.debug(
@@ -223,4 +224,13 @@ export function installHooks() {
       },
     });
   }
+
+  if (version.gmv == 64 && config.customSettings)
+    Interceptor.attach(base.add(Offsets.SetText), {
+      onEnter(args) {
+        if (decodeString(args[1]) == "Null's Connect") {
+          stringCtor(args[1], Memory.allocUtf8String(""));
+        }
+      },
+    });
 }

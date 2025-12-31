@@ -1,6 +1,5 @@
 import { ByteStream } from "src/bytestream.js";
-import { config, version } from "src/definitions.js";
-import { Logger } from "src/utility/logger.js";
+import { config } from "src/definitions.js";
 import { calculateHighestTrophies, calculateTrophies } from "src/util.js";
 
 export class OwnHomeDataMessage {
@@ -304,18 +303,18 @@ export class OwnHomeDataMessage {
     stream.writeVInt(0); // theme override entry
 
     // event asset list
-      stream.writeVInt(1); // array
-      stream.writeVInt(1);
-      stream.writeBoolean(true);
-      stream.writeString("1a1d6744f7dfb7bcfa54e3876c944b1da9d075db");
-      stream.writeString(
-        "/3f8dc547-1aed-4d85-81b0-32ead16f7474_collab_toystory.sc",
-      );
-      stream.writeVInt(83);
-      stream.writeVInt(6);
-      stream.writeVInt(0);
-      stream.writeVInt(0);
-      stream.writeVInt(0);
+    stream.writeVInt(1); // array
+    stream.writeVInt(1);
+    stream.writeBoolean(true);
+    stream.writeString("1a1d6744f7dfb7bcfa54e3876c944b1da9d075db");
+    stream.writeString(
+      "/3f8dc547-1aed-4d85-81b0-32ead16f7474_collab_toystory.sc",
+    );
+    stream.writeVInt(83);
+    stream.writeVInt(6);
+    stream.writeVInt(0);
+    stream.writeVInt(0);
+    stream.writeVInt(0);
 
     stream.writeVInt(0); // join club event entry
     stream.writeVInt(0); // daily fortune cookie
@@ -346,21 +345,21 @@ export class OwnHomeDataMessage {
 
     stream.writeVInt(0); // gears
 
-      stream.writeBoolean(true); // starr road
-      stream.writeVInt(0); // arr
-      stream.writeVInt(0); // arr
-      stream.writeVInt(0); // actually data reference
-      stream.writeVInt(1); // how many brawlers are being unlocked
-      stream.writeDataReference(16, 0);
-      stream.writeVInt(2); // credits needed
-      stream.writeVInt(10000); // gem unlock price
-      stream.writeVInt(0);
-      stream.writeVInt(1); // current credits
-      stream.writeVInt(0);
-      stream.writeVInt(0);
-      stream.writeVInt(0);
-      stream.writeVInt(0);
-      stream.writeVInt(0);
+    stream.writeBoolean(true); // starr road
+    stream.writeVInt(0); // arr
+    stream.writeVInt(0); // arr
+    stream.writeVInt(0); // actually data reference
+    stream.writeVInt(1); // how many brawlers are being unlocked
+    stream.writeDataReference(16, 0);
+    stream.writeVInt(2); // credits needed
+    stream.writeVInt(10000); // gem unlock price
+    stream.writeVInt(0);
+    stream.writeVInt(1); // current credits
+    stream.writeVInt(0);
+    stream.writeVInt(0);
+    stream.writeVInt(0);
+    stream.writeVInt(0);
+    stream.writeVInt(0);
 
     // mastery
     stream.writeVInt(Object.keys(config.ownedBrawlers).length);

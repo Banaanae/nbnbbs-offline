@@ -77,6 +77,7 @@ export class Config {
     "button_birthday",
     "button_ads",
     "button_privacy_settings",
+    "button_sc_id",
   ];
   customSettings = true;
   passTokens = 40000;

@@ -1,6 +1,5 @@
 import { ByteStream } from "src/bytestream.js";
-import { config, version } from "src/definitions.js";
-import { Logger } from "src/utility/logger.js";
+import { config } from "src/definitions.js";
 import { calculateHighestTrophies, calculateTrophies } from "src/util.js";
 
 export class OwnHomeDataMessage {

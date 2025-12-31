@@ -1,8 +1,8 @@
-import { Config, readConfig, tryLoadDefaultConfig } from "./config.js";
-import { getOffsetsFromJSON, Offsets } from "./offsets.js";
+import { Config, readConfig } from "./config.js";
+import { Offsets, setupOffsets } from "./offsets.js";
 import { isAndroid } from "./platform.js";
 import { getDocumentsDirectory, getPackageName } from "./util.js";
-import { Logger } from "./utility/logger.js";
+import { version } from "version";
 
 export let base = NULL;
 
@@ -26,7 +26,6 @@ export let configPath: string;
 export let config: Config;
 export let pkgName: string;
 export let botNames: string[];
-export let version: number;
 
 export let createMessageByType: any;
 export let operator_new: any;
@@ -68,12 +67,11 @@ export const buttonHandlers: Array<{
 }> = [];
 
 export function load() {
+  setupOffsets();
   pkgName = getPackageName();
   documentsDirectory = getDocumentsDirectory();
   configPath = documentsDirectory + "/config.json";
   config = readConfig();
-
-  version = getOffsetsFromJSON();
 
   createMessageByType = new NativeFunction(
     base.add(Offsets.CreateMessageByType),
@@ -115,7 +113,7 @@ export function load() {
     "pointer",
     ["pointer"],
   );
-  if (version == 59) {
+  if (version.gmv == 59) {
     setText = new NativeFunction(base.add(Offsets.SetText), "int64", [
       "pointer",
       "pointer",
@@ -144,21 +142,7 @@ export function load() {
       "pointer",
       ["pointer", "pointer"],
     );
-    getX = new NativeFunction(base.add(Offsets.GetX), "float", ["pointer"]);
-    setX = new NativeFunction(base.add(Offsets.SetX), "void", [
-      "pointer",
-      "float",
-    ]);
-    getY = new NativeFunction(base.add(Offsets.GetY), "float", ["pointer"]);
-    setY = new NativeFunction(base.add(Offsets.SetY), "void", [
-      "pointer",
-      "float",
-    ]);
-    setXY = new NativeFunction(base.add(Offsets.SetXY), "void", [
-      "pointer",
-      "float",
-      "float",
-    ]);
+
     getWidth = new NativeFunction(base.add(Offsets.GetWidth), "float", [
       "pointer",
     ]);
@@ -204,6 +188,21 @@ export function load() {
       ["pointer", "pointer", "int64", "float"],
     );
   }
+  getX = new NativeFunction(base.add(Offsets.GetX), "float", ["pointer"]);
+  setX = new NativeFunction(base.add(Offsets.SetX), "void", [
+    "pointer",
+    "float",
+  ]);
+  getY = new NativeFunction(base.add(Offsets.GetY), "float", ["pointer"]);
+  setY = new NativeFunction(base.add(Offsets.SetY), "void", [
+    "pointer",
+    "float",
+  ]);
+  setXY = new NativeFunction(base.add(Offsets.SetXY), "void", [
+    "pointer",
+    "float",
+    "float",
+  ]);
 }
 
 export function setBase(ptr: NativePointer) {

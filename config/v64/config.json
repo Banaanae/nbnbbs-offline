@@ -53,6 +53,7 @@
     "r35brawlers": 0
   },
   "enableSupercellID": false,
+  "customSettings": true,
   "brawlpass": {
     "enabled": true,
     "hasPremium": true,
