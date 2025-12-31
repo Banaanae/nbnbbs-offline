@@ -1,6 +1,6 @@
 # NBS Offline
 
-An offline client for newer versions of the game. It supports v59 (Android and iOS) and v64 (Android only for now)
+An offline client for newer versions of the game. It supports v59 (Android and iOS) and v64 (Android only for now).
 
 ## Download
 
