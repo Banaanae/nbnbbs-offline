@@ -27,7 +27,6 @@ Script downloads available in the [releases section](https://github.com/nbs-offl
 ## Credits
 
 - Made by Natesworks and Banaanae
-- OwnHomeDataMessage structure by Soufgame
 - Player profile by kubune
 - Map maker and teams structure slightly updated from Royale Brawl
 - Android asset manager by libgud
