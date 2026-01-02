@@ -1,6 +1,5 @@
 import { Brawler } from "./brawler.js";
 import { configPath, libc } from "./definitions.js";
-import { getDefaultConfig } from "./util.js";
 import { Event } from "./event.js";
 import { Long } from "./long.js";
 
@@ -86,17 +85,8 @@ export class Config {
   ownedSkins: number[] = [];
   ownedThumbnails: number[] = [0];
 }
-export function tryLoadDefaultConfig() {
-  try {
-    File.readAllText(configPath);
-    return;
-  } catch (e) {}
-  const defaultConfig = getDefaultConfig();
-  File.writeAllText(configPath, defaultConfig);
-}
 
 export function readConfig() {
-  tryLoadDefaultConfig();
   const json = JSON.parse(File.readAllText(configPath));
   const config = new Config();
 

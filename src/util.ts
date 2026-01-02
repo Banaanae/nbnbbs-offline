@@ -1,4 +1,3 @@
-import { gAssetManager } from "./utility/assetmanagerandroid.js";
 import { Brawler } from "./brawler.js";
 import {
   base,
@@ -82,17 +81,6 @@ export function getLibraryDirectory() {
   }
 
   throw new Error("libnbs.so not found");
-}
-
-export function getDefaultConfig(): string {
-  if (!isAndroid) {
-    return getDefaultConfigIOS();
-  }
-  let cfg = gAssetManager?.readFromAssets("nbs/config.json");
-  if (cfg) {
-    return cfg;
-  }
-  throw new Error("Failed to read config.json. Has it been deleted?");
 }
 
 export function getDefaultConfigIOS(): string {
