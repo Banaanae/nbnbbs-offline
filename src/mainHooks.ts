@@ -200,7 +200,7 @@ export function installHooks() {
     },
   });
 
-  if (version.gmv == 59) {
+  if (version.gmv == 59 && config.debugMenu) {
     Interceptor.attach(base.add(Offsets.HomePageConstructor), {
       onLeave(guiContainer) {
         Logger.debug(

@@ -33,7 +33,7 @@
   "china": false,
   "artTest": false,
   "customLoadingScreen": false,
-  "debugMenu": true,
+  "debugMenu": false,
   "rankedCurrent": 0,
   "rankedHighest": 0,
   "prestige": 0,
