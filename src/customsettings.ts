@@ -25,7 +25,7 @@ export function setupCustomSettings() {
       guiContainer = args[0];
       this.setTextHook = Interceptor.attach(base.add(Offsets.SetText), {
         onEnter(args) {
-          if (decodeString(args[1]) == "Null's Connect") {
+          if (decodeString(args[1]) == "SUPERCELL ID") {
             stringCtor(args[1], Memory.allocUtf8String(""));
           }
         },
